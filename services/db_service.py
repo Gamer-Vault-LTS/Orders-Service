@@ -36,8 +36,7 @@ def get_secret_manager_db():
 def init_app(app):
     try:
         db_credentials = get_secret_manager_db()
-        # DB_HOST = db_credentials["host"]
-        DB_HOST = "localhost:8008"
+        DB_HOST = db_credentials["host"]
         DB_NAME = db_credentials["dbname"]
         DB_USER = db_credentials["username"]
         DB_PASS = db_credentials["password"]
