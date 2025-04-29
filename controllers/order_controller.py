@@ -109,3 +109,28 @@ def get_user_orders(user_id):
         "description": o.description,
         "created_at": o.created_at.isoformat()
     } for o in orders])
+    
+@order_bp.route("detail/<order_id>", methods=["GET"])
+def get_order(order_id):
+    
+    try:
+        order_id = str(order_id)
+        
+        order = Order.query.filter_by(order_id=order_id).first()
+        
+        if not order:
+            return jsonify({"error": "Order not found"}), 404
+        
+        return jsonify(
+            { 
+                "created_at": order.created_at,
+                "order_id": order.order_id,
+                "total": float(order.total),
+                "savings": float(order.savings),
+                "status": order.status,
+                "description": order.description,  
+            } 
+        ), 200
+    except ValueError as e:
+        return jsonify({"OrderError": e}), 400
+     
