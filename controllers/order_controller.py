@@ -4,11 +4,38 @@ from models.user_model import User
 from models.wallet_model import Wallet
 from services.db_service import db
 from decimal import Decimal, InvalidOperation
+from models.challenge_levels_model import ChallengeLevels
 
 order_bp = Blueprint("orders", __name__)
 
+def set_challenge_level(user_id):
+    try:
+        
+        user = User.query.filter_by(user_id=user_id).first()
+        if not user:
+            return jsonify({"error": "User not found"}), 401
+        
+        progress = user.challenge_progress
+        progress += 1
+        
+        levels = ChallengeLevels.query.all()
+        
+        for level in levels:
+            if progress >= level.min_transactions:
+                user_lvl = level.level_id
+                
+        user.challenge_level_id = user_lvl
+        user.challenge_progress = progress
+        
+        db.session.commit()
+        return jsonify({"message": "Challenge level updated"}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @order_bp.route("", methods=["POST"])
 def create_order():
+    
     try:
         data = request.get_json()
         user_id = data.get("user_id")
@@ -47,9 +74,11 @@ def create_order():
 
         # Sumar savings al balance de la wallet
         wallet.balance += savings
-
+        
+        set_challenge_level(user_id)
+        
         db.session.commit()
-
+        
         return jsonify({
             "message": "Order created and savings added to wallet successfully",
             "order_id": new_order.order_id,
