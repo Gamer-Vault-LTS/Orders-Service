@@ -7,7 +7,7 @@ on:
 env:
     AWS_REGION: us-east-1
     ECR_REPOSITORY: order_services_repo
-    ECS_SERVICE: orders-service
+    ECS_SERVICE: orders-service-gvgg
     ECS_CLUSTER: main-cluster-gamer-vault-ggeasy
     ECS_TASK_DEFINITION: .aws/main-orders-service-task-def.json
     CONTAINER_NAME: orders-task
