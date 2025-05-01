@@ -108,7 +108,8 @@ def get_user_orders(user_id):
         "savings": float(o.savings),
         "status": o.status,
         "description": o.description,
-        "created_at": o.created_at.isoformat()
+        "created_at": o.created_at.isoformat(),
+        "payment_method": o.payment_method
     } for o in orders])
     
 @order_bp.route("detail/<order_id>", methods=["GET"])
@@ -130,8 +131,12 @@ def get_order(order_id):
                 "savings": float(order.savings),
                 "status": order.status,
                 "description": order.description,  
+                "payment_method": order.payment_method
             } 
         ), 200
     except ValueError as e:
         return jsonify({"OrderError": e}), 400
-     
+    
+@order_bp.route("/health")
+def health():
+    return jsonify({"status": "healthy"}), 200
