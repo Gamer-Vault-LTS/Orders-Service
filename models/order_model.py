@@ -12,3 +12,4 @@ class Order(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.Enum('pending', 'completed', 'cancelled', name='order_status'), default='pending')
     description = db.Column(db.JSON, nullable=True)
+    payment_method = db.Column(db.String(255), nullable=True)

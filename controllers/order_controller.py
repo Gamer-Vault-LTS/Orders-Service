@@ -67,7 +67,8 @@ def create_order():
             total=total,
             savings=savings,
             status=data.get("status", "pending"),
-            description=data.get("description")
+            description=data.get("description"),
+            payment_method=data.get("payment_method"),
         )
 
         db.session.add(new_order)
