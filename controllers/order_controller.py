@@ -118,7 +118,7 @@ def get_order(order_id):
     try:
         order_id = str(order_id)
         
-        order = Order.query.filter_by(order_id=order_id).first()
+        order = Order.query.filter_by(order_id=order_id).asc(Order.created_at).first()
         
         if not order:
             return jsonify({"error": "Order not found"}), 404
@@ -137,6 +137,3 @@ def get_order(order_id):
     except ValueError as e:
         return jsonify({"OrderError": e}), 400
     
-@order_bp.route("/health")
-def health():
-    return jsonify({"status": "healthy"}), 200

@@ -1,17 +1,19 @@
-from flask import Flask
+from flask import Flask, jsonify
 from controllers.order_controller import order_bp
 from services.db_service import init_app, db 
 from sqlalchemy import text  
 
 app = Flask(__name__)
 
-# Inicializar la base de datos
 init_app(app)
 
-# Registrar blueprints
+
 app.register_blueprint(order_bp, url_prefix="/orders")
 
-# Ruta para comprobar la salud de la aplicación
+@app.route("/")
+def root():
+    return jsonify({"status": "healthy"}), 200
+
 @app.route('/health')
 def health_check():
     try:
