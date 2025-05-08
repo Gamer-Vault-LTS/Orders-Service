@@ -15,7 +15,7 @@ db = SQLAlchemy()
 
 # Obtener credenciales desde AWS Secrets Manager
 def get_secret_manager_db():
-    secret_name = "rds!cluster-9b4b7cd8-22ee-48ff-bbc4-d1f43ddf3bc8"
+    secret_name = "rds!cluster-5dfd2241-8741-4a10-a2d6-6f6edf581769"
     region_name = "us-east-1"
 
     try:
@@ -24,9 +24,8 @@ def get_secret_manager_db():
         secret = json.loads(response["SecretString"])
         
         # Proporcionar valores predeterminados para host y dbname si no están en el secreto
-        secret["host"] = secret.get("host", "cluster-gamer-vault.cluster-c6r6ws4k4vwo.us-east-1.rds.amazonaws.com:3306")
-        secret["dbname"] = secret.get("dbname", "gamervaultlts")
-        
+        secret["host"] = secret.get("host", "db-gamer-vault-instance-1.c6r6ws4k4vwo.us-east-1.rds.amazonaws.com")
+        secret["dbname"] = secret.get("dbname", "gamervault")
         return secret
     except ClientError as e:
         log.error(f"Error al obtener el secreto: {e}")

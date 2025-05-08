@@ -99,7 +99,7 @@ def get_user_orders(user_id):
         return jsonify({"error": "User not found"}), 404
 
     # Obtener las órdenes del usuario
-    orders = Order.query.filter_by(user_id=user_id).all()
+    orders = Order.query.filter_by(user_id=user_id).order_by(Order.created_at.asc()).all()
 
     # Formatear la respuesta
     return jsonify([{
@@ -118,7 +118,7 @@ def get_order(order_id):
     try:
         order_id = str(order_id)
         
-        order = Order.query.filter_by(order_id=order_id).asc(Order.created_at).first()
+        order = Order.query.filter_by(order_id=order_id).first()
         
         if not order:
             return jsonify({"error": "Order not found"}), 404
