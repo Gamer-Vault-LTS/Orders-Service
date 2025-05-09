@@ -24,7 +24,7 @@ def get_secret_manager_db():
         secret = json.loads(response["SecretString"])
         
         # Proporcionar valores predeterminados para host y dbname si no están en el secreto
-        secret["host"] = secret.get("host", "db-gamer-vault-instance-1.c6r6ws4k4vwo.us-east-1.rds.amazonaws.com")
+        secret["host"] = secret.get("host", "db-gamer-vault-instance-1-us-east-1b.c6r6ws4k4vwo.us-east-1.rds.amazonaws.com")
         secret["dbname"] = secret.get("dbname", "gamervault")
         return secret
     except ClientError as e:
